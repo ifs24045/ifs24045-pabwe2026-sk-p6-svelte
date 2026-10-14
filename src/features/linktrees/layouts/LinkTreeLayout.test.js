@@ -63,42 +63,53 @@ describe("LinkTreeLayout", () => {
     expect(wrapper.text()).not.toContain("Memuat data pengguna...");
   });
 
-  it("should clear token and redirect to login when profile fetch fails", async () => {
-    vi.spyOn(apiHelper, "getAccessToken").mockReturnValue("expired-token");
-    const navSpy = vi.spyOn(routerModule, "navigate").mockImplementation(() => {});
-    const tokenSpy = vi.spyOn(apiHelper, "putAccessToken").mockImplementation(() => {});
-    vi.spyOn(usersStore, "asyncSetProfile").mockResolvedValue();
+  it("should clear token and redirect to login when the token is rejected (401)", async () => {
+  vi.spyOn(apiHelper, "getAccessToken").mockReturnValue("expired-token");
+  const navSpy = vi.spyOn(routerModule, "navigate").mockImplementation(() => {});
+  const tokenSpy = vi.spyOn(apiHelper, "putAccessToken").mockImplementation(() => {});
+  vi.spyOn(usersStore, "asyncSetProfile").mockResolvedValue();
 
-    renderWithProviders(LinkTreeLayout, {
-      props: { children, $$slots: { default: true } },
-      preloadedState: { profile: null },
-    });
-
-    usersStore.setIsProfile(true);
-    await new Promise((r) => setTimeout(r, 10));
-
-    expect(tokenSpy).toHaveBeenCalledWith("");
-    expect(navSpy).toHaveBeenCalledWith("/auth/login");
-    expect(usersStore.isProfile).toBe(false);
+  renderWithProviders(LinkTreeLayout, {
+    props: { children, $$slots: { default: true } },
+    preloadedState: { profile: null },
   });
 
-  it("should stay on the page when profile fetch succeeds", async () => {
-    vi.spyOn(apiHelper, "getAccessToken").mockReturnValue("valid-token");
-    const navSpy = vi.spyOn(routerModule, "navigate").mockImplementation(() => {});
-    const tokenSpy = vi.spyOn(apiHelper, "putAccessToken").mockImplementation(() => {});
+  usersStore.setProfileError("unauthorized");
+  usersStore.setIsProfile(true);
+  await new Promise((r) => setTimeout(r, 10));
 
-    renderWithProviders(LinkTreeLayout, {
-      props: { children, $$slots: { default: true } },
-      preloadedState: { profile: mockProfile },
-    });
+  expect(tokenSpy).toHaveBeenCalledWith("");
+  expect(navSpy).toHaveBeenCalledWith("/auth/login");
+  expect(usersStore.isProfile).toBe(false);
+});
 
-    usersStore.setIsProfile(true);
-    await new Promise((r) => setTimeout(r, 10));
+it("should keep the token and show a retry button when the profile fails to load", async () => {
+  vi.spyOn(apiHelper, "getAccessToken").mockReturnValue("valid-token");
+  const navSpy = vi.spyOn(routerModule, "navigate").mockImplementation(() => {});
+  const tokenSpy = vi.spyOn(apiHelper, "putAccessToken").mockImplementation(() => {});
+  const profileSpy = vi.spyOn(usersStore, "asyncSetProfile").mockResolvedValue();
 
-    expect(navSpy).not.toHaveBeenCalled();
-    expect(tokenSpy).not.toHaveBeenCalled();
-    expect(usersStore.isProfile).toBe(false);
+  const { wrapper } = renderWithProviders(LinkTreeLayout, {
+    props: { children, $$slots: { default: true } },
+    preloadedState: { profile: null },
   });
+
+  usersStore.setProfileError("failed");
+  usersStore.setIsProfile(true);
+  await new Promise((r) => setTimeout(r, 10));
+
+  expect(navSpy).not.toHaveBeenCalled();
+  expect(tokenSpy).not.toHaveBeenCalled();
+  expect(wrapper.find('[data-testid="profile-error"]').exists()).toBe(true);
+  expect(wrapper.text()).not.toContain("Memuat data pengguna...");
+
+  await wrapper.find('[data-testid="profile-retry-btn"]').trigger("click");
+
+  expect(usersStore.profileError).toBeNull();
+  expect(profileSpy).toHaveBeenCalledTimes(2);
+  expect(wrapper.find('[data-testid="profile-error"]').exists()).toBe(false);
+  expect(wrapper.text()).toContain("Memuat data pengguna...");
+});
 
   it("should clear profile and redirect to login after logout", async () => {
     vi.spyOn(apiHelper, "getAccessToken").mockReturnValue("valid-token");

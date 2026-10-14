@@ -36,12 +36,14 @@ const userApi = (() => {
   async function getProfile() {
     const response = await apiHelper.fetchData(_url("/me"), {
       method: "GET",
-    });
+  });
 
-    const result = await response.json();
-    if (result.status !== "success" && !result.success) {
-      throw new Error(result.message || "Gagal mengambil data profil");
-    }
+  const result = await response.json();
+  if (result.status !== "success" && !result.success) {
+    const error = new Error(result.message || "Gagal mengambil data profil");
+    error.status = response.status;
+    throw error;
+  }
 
     return result.data?.user;
   }

@@ -14,6 +14,7 @@ describe("usersStore", () => {
     expect(store.users).toEqual([]);
     expect(store.user).toBeNull();
     expect(store.profile).toBeNull();
+    expect(store.profileError).toBeNull();
     expect(store.isProfile).toBe(false);
     expect(store.isChangeProfile).toBe(false);
     expect(store.isChangeProfilePhoto).toBe(false);
@@ -30,6 +31,9 @@ describe("usersStore", () => {
 
     store.setProfile({ id: 3 });
     expect(store.profile).toEqual({ id: 3 });
+
+    store.setProfileError("failed");
+    expect(store.profileError).toBe("failed");
 
     store.setIsProfile(true);
     expect(store.isProfile).toBe(true);
@@ -85,26 +89,38 @@ describe("usersStore", () => {
   });
 
   describe("asyncSetProfile", () => {
-    it("should set profile and setIsProfile to true on success", async () => {
-      const store = useUsersStore();
-      vi.spyOn(userApi, "getProfile").mockResolvedValue({ id: 3 });
-
-      await store.asyncSetProfile();
-
-      expect(store.profile).toEqual({ id: 3 });
-      expect(store.isProfile).toBe(true);
-    });
-
-    it("should set profile null and setIsProfile to true on error", async () => {
+    it("should set profile null and mark the error as failed on a non-401 error", async () => {
       const store = useUsersStore();
       vi.spyOn(userApi, "getProfile").mockRejectedValue(new Error("Failed"));
 
       await store.asyncSetProfile();
 
       expect(store.profile).toBeNull();
+      expect(store.profileError).toBe("failed");
       expect(store.isProfile).toBe(true);
     });
-  });
+
+    it("should mark the error as unauthorized on a 401 error", async () => {
+      const store = useUsersStore();
+      const error = Object.assign(new Error("Unauthenticated"), { status: 401 });
+      vi.spyOn(userApi, "getProfile").mockRejectedValue(error);
+
+      await store.asyncSetProfile();
+
+      expect(store.profile).toBeNull();
+      expect(store.profileError).toBe("unauthorized");
+      expect(store.isProfile).toBe(true);
+    });
+
+    it("should clear a previous profile error on success", async () => {
+      const store = useUsersStore();
+      store.setProfileError("failed");
+      vi.spyOn(userApi, "getProfile").mockResolvedValue({ id: 3 });
+
+      await store.asyncSetProfile();
+
+      expect(store.profileError).toBeNull();
+    });
 
   describe("asyncPutProfile", () => {
     it("should update profile, show success, and set isChangeProfile to true", async () => {
@@ -204,5 +220,6 @@ describe("usersStore", () => {
       expect(errorSpy).toHaveBeenCalledWith("Password salah");
       expect(store.isChangeProfilePassword).toBe(false);
     });
+  });
   });
 });

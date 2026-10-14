@@ -52,6 +52,19 @@ describe("userApi", () => {
       });
 
       await expect(userApi.getUsers()).rejects.toThrow("Gagal mengambil data pengguna");
+    
+    it("should attach the http status to the thrown error", async () => {
+     vi.spyOn(apiHelper, "fetchData").mockResolvedValue({
+        status: 401,
+       json: async () => ({
+        status: "fail",
+      message: "Unauthenticated",
+    }),
+  });
+
+      await expect(userApi.getProfile()).rejects.toMatchObject({ status: 401 });
+    });
+      
     });
   });
 

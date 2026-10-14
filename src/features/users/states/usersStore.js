@@ -7,6 +7,7 @@ function createUsersStore() {
     users: [],
     user: null,
     profile: null,
+    profileError: null,
     isProfile: false,
     isChangeProfile: false,
     isChangeProfilePhoto: false,
@@ -24,6 +25,7 @@ function createUsersStore() {
     get users() { return currentState.users; },
     get user() { return currentState.user; },
     get profile() { return currentState.profile; },
+    get profileError() { return currentState.profileError; },
     get isProfile() { return currentState.isProfile; },
     get isChangeProfile() { return currentState.isChangeProfile; },
     get isChangeProfilePhoto() { return currentState.isChangeProfilePhoto; },
@@ -40,6 +42,9 @@ function createUsersStore() {
     },
     setProfile(profile) {
       innerStore.update((s) => ({ ...s, profile }));
+    },
+    setProfileError(profileError) {
+      innerStore.update((s) => ({ ...s, profileError }));
     },
     setIsProfile(status) {
       innerStore.update((s) => ({ ...s, isProfile: status }));
@@ -73,8 +78,10 @@ function createUsersStore() {
       try {
         const profile = await userApi.getProfile();
         this.setProfile(profile);
-      } catch {
+        this.setProfileError(null);
+      } catch (error) {
         this.setProfile(null);
+        this.setProfileError(error.status === 401 ? "unauthorized" : "failed");
       } finally {
         this.setIsProfile(true);
       }
