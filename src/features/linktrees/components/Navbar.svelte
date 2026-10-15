@@ -49,6 +49,7 @@
         type="button"
         data-testid="navbar-profile-btn"
         on:click={() => navigate("/profile")}
+        aria-label={`Profil ${displayName}`}
         class="flex items-center gap-2.5 pl-1 pr-3 py-1 rounded-full hover:bg-slate-100 transition-colors"
       >
         {#if profile?.photo}
@@ -71,6 +72,7 @@
         type="button"
         data-testid="logout-btn"
         on:click={handleLogout}
+        aria-label="Keluar"
         class="inline-flex items-center gap-2 px-3 py-2 text-sm font-semibold text-red-700 hover:bg-red-50 rounded-xl transition-colors"
       >
         <LogOut size={18} />
