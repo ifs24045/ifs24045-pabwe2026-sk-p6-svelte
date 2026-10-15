@@ -30,14 +30,16 @@
   $: Page = pages[route.page];
 </script>
 
-{#if Layout}
-  <Layout>
+{#key route.layout}
+  {#if Layout}
+    <svelte:component this={Layout}>
+      {#key $currentPath}
+        <svelte:component this={Page} {...route.params} />
+      {/key}
+    </svelte:component>
+  {:else}
     {#key $currentPath}
-      <Page {...route.params} />
+      <svelte:component this={Page} />
     {/key}
-  </Layout>
-{:else}
-  {#key $currentPath}
-    <Page />
-  {/key}
-{/if}
+  {/if}
+{/key}
