@@ -158,7 +158,7 @@
       {#if hasCover(linkTree.cover)}
         <img
           src={linkTree.cover}
-          alt={linkTree.title}
+          alt=""
           data-testid="detail-cover"
           class="w-full h-48 sm:h-64 object-cover"
         />

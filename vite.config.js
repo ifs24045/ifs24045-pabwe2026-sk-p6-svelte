@@ -6,6 +6,11 @@ import process from "process";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
+  const apiTarget = env.VITE_DELCOM_BASEURL || "https://open-api.delcom.org/api/v1";
+  const useProxy = mode === "production";
+  const proxy = {
+    "/api/v1": { target: new URL(apiTarget).origin, changeOrigin: true },
+  };
 
   return {
     plugins: [
@@ -17,17 +22,17 @@ export default defineConfig(({ mode }) => {
     ],
     server: {
       port: Number(env.APP_PORT) || 3004,
+      proxy,
     },
     preview: {
       port: Number(env.APP_PORT) || 3004,
+      proxy,
     },
     build: {
       chunkSizeWarningLimit: 1500,
     },
     define: {
-      DELCOM_BASEURL: JSON.stringify(
-      env.VITE_DELCOM_BASEURL || "https://open-api.delcom.org/api/v1"
-      ),
+      DELCOM_BASEURL: JSON.stringify(useProxy ? "/api/v1" : apiTarget),
     },
     test: {
       globals: true,
