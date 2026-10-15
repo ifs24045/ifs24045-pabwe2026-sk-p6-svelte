@@ -1,0 +1,9 @@
+# Delcom Link Tree
+
+> Aplikasi web untuk membuat, mengelola, dan membagikan kumpulan tautan pribadi dalam satu halaman.
+
+## Halaman
+
+- [Beranda](https://ifs24045-pabwe2026-sk-p6-svelte.vercel.app/): Daftar semua link tree beserta ringkasan jumlahnya.
+- [Masuk](https://ifs24045-pabwe2026-sk-p6-svelte.vercel.app/auth/login): Halaman login akun.
+- [Daftar](https://ifs24045-pabwe2026-sk-p6-svelte.vercel.app/auth/register): Halaman pendaftaran akun baru.
