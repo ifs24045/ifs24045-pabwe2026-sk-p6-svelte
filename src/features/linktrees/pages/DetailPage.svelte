@@ -143,11 +143,13 @@
 
   {#if !linkTree && loading}
     <div class="flex flex-col items-center justify-center py-24">
+      <h1 class="sr-only">Detail Link Tree</h1>
       <LoaderCircle size={36} class="text-indigo-600 animate-spin mb-2" />
       <p class="text-sm font-medium text-slate-600">Memuat detail link tree...</p>
     </div>
   {:else if !linkTree}
     <div class="py-16 text-center text-slate-600">
+      <h1 class="sr-only">Detail Link Tree</h1>
       <FolderOpen size={40} class="mx-auto text-slate-300 mb-2" />
       <p class="font-medium">Link tree tidak ditemukan.</p>
     </div>

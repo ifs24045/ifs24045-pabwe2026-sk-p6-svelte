@@ -60,6 +60,7 @@
         <slot />
       {:else if $usersStore.profileError === "failed"}
         <div class="flex flex-col items-center justify-center py-24 text-center">
+          <h1 class="sr-only">Delcom Link Tree</h1>
           <p data-testid="profile-error" class="text-sm font-medium text-slate-600 mb-3">
             Gagal memuat data pengguna. Periksa koneksi lalu coba lagi.
           </p>
@@ -75,6 +76,7 @@
         </div>
       {:else}
         <div class="flex flex-col items-center justify-center py-24">
+          <h1 class="sr-only">Delcom Link Tree</h1>
           <LoaderCircle size={36} class="text-indigo-600 animate-spin mb-2" />
           <p class="text-sm font-medium text-slate-600">Memuat data pengguna...</p>
         </div>

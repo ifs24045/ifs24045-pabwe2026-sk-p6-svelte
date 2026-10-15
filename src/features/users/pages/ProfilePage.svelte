@@ -94,6 +94,7 @@
 
 {#if !profile}
   <div class="flex flex-col items-center justify-center py-24">
+    <h1 class="sr-only">Profil Akun</h1>
     <LoaderCircle size={36} class="text-indigo-600 animate-spin mb-2" />
     <p class="text-sm font-medium text-slate-600">Memuat data profil...</p>
   </div>
