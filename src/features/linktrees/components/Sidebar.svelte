@@ -63,7 +63,7 @@
       data-testid="sidebar-close-btn"
       aria-label="Tutup menu"
       on:click={onClose}
-      class="p-2 rounded-xl text-slate-500 hover:bg-slate-100 transition-colors"
+      class="p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors"
     >
       <X size={20} />
     </button>

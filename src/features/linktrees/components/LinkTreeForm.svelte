@@ -69,7 +69,7 @@
       <option value="unlisted">Tidak Terdaftar</option>
       <option value="private">Privat</option>
     </select>
-    <p data-testid="link-tree-type-hint" class="mt-1.5 text-xs text-slate-500">
+    <p data-testid="link-tree-type-hint" class="mt-1.5 text-xs text-slate-600">
       {selectedHint}
     </p>
   </div>

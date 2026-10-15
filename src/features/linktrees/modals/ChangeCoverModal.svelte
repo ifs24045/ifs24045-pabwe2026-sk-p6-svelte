@@ -66,7 +66,7 @@
             {selectedFile.name}
           </span>
         {:else}
-          <span class="text-sm text-slate-500">Klik untuk memilih gambar (maks. 3MB)</span>
+          <span class="text-sm text-slate-600">Klik untuk memilih gambar (maks. 3MB)</span>
         {/if}
       </label>
       <input

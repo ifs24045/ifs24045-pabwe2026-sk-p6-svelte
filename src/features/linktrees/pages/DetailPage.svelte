@@ -147,7 +147,7 @@
       <p class="text-sm font-medium text-slate-600">Memuat detail link tree...</p>
     </div>
   {:else if !linkTree}
-    <div class="py-16 text-center text-slate-400">
+    <div class="py-16 text-center text-slate-600">
       <FolderOpen size={40} class="mx-auto text-slate-300 mb-2" />
       <p class="font-medium">Link tree tidak ditemukan.</p>
     </div>
@@ -181,7 +181,7 @@
             <h1 data-testid="detail-title" class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               {linkTree.title}
             </h1>
-            <p data-testid="detail-author" class="text-sm text-slate-500">{authorLabel(linkTree)}</p>
+            <p data-testid="detail-author" class="text-sm text-slate-600">{authorLabel(linkTree)}</p>
           </div>
 
           {#if isOwner}
@@ -208,7 +208,7 @@
                 type="button"
                 data-testid="delete-link-tree-btn"
                 on:click={handleDeleteLinkTree}
-                class="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-semibold text-red-600 border border-red-200 hover:bg-red-50 rounded-xl transition-colors"
+                class="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-semibold text-red-700 border border-red-200 hover:bg-red-50 rounded-xl transition-colors"
               >
                 <Trash2 size={16} />
                 Hapus
@@ -240,7 +240,7 @@
       </div>
 
       {#if linkTree.items.length === 0}
-        <p data-testid="items-empty" class="py-8 text-center text-sm text-slate-400">
+        <p data-testid="items-empty" class="py-8 text-center text-sm text-slate-600">
           Belum ada tautan di link tree ini.
         </p>
       {:else}
@@ -262,7 +262,7 @@
                 </span>
                 <span class="min-w-0">
                   <span class="block text-sm font-semibold text-slate-900 truncate">{item.title}</span>
-                  <span class="block text-xs text-slate-500 truncate">{item.url}</span>
+                  <span class="block text-xs text-slate-600 truncate">{item.url}</span>
                 </span>
               </a>
               {#if isOwner}
@@ -272,7 +272,7 @@
                     data-testid={`item-edit-${item.id}`}
                     aria-label={`Ubah ${item.title}`}
                     on:click={() => openEditItem(item)}
-                    class="p-2 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
+                    class="p-2 rounded-lg text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
                   >
                     <Pencil size={16} />
                   </button>
@@ -281,7 +281,7 @@
                     data-testid={`item-delete-${item.id}`}
                     aria-label={`Hapus ${item.title}`}
                     on:click={() => handleDeleteItem(item)}
-                    class="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
+                    class="p-2 rounded-lg text-slate-600 hover:text-red-600 hover:bg-red-50 transition-colors"
                   >
                     <Trash2 size={16} />
                   </button>

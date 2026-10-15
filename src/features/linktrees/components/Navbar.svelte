@@ -54,7 +54,7 @@
         {#if profile?.photo}
           <img
             src={profile.photo}
-            alt={displayName}
+            alt=""
             class="w-8 h-8 rounded-full object-cover border border-slate-200"
           />
         {:else}
@@ -71,7 +71,7 @@
         type="button"
         data-testid="logout-btn"
         on:click={handleLogout}
-        class="inline-flex items-center gap-2 px-3 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 rounded-xl transition-colors"
+        class="inline-flex items-center gap-2 px-3 py-2 text-sm font-semibold text-red-700 hover:bg-red-50 rounded-xl transition-colors"
       >
         <LogOut size={18} />
         <span class="hidden sm:inline">Keluar</span>

@@ -9,7 +9,7 @@
   </div>
   <p data-testid="not-found-code" class="text-6xl font-extrabold text-slate-900 tracking-tight">404</p>
   <h1 class="mt-2 text-xl font-bold text-slate-800">Halaman Tidak Ditemukan</h1>
-  <p class="mt-1 text-sm text-slate-500 max-w-sm">
+  <p class="mt-1 text-sm text-slate-600 max-w-sm">
     Halaman yang Anda cari tidak ada atau sudah dipindahkan.
   </p>
   <button
